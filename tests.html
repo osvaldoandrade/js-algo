@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/algo/queue.js"></script>
+    <script src="js/algo/linked-list.js"></script>
+    <script src="js/algo/disjoint-quick-union.js"></script>
+    <script src="js/algo/disjoint-quick-find.js"></script>
+    <script src="js/algo/graph.js"></script>
+    <script src="js/algo/graph-dfs.js"></script>
+    <script src="js/algo/graph-bfs-dist.js"></script>
+    <script src="js/algo/graph-dfs-connected-component.js"></script>
+    <script src="js/algo/graph-dfs-bi-partite.js"></script>
+    <script src="js/algo/graph-topological-sort.js"></script>
+    <script src="js/algo/binary-search-tree.js"></script>
+    <script src="js/algo/graph-weighted.js"></script>
+    <script src="js/algo/downloaded/binary-heap.js"></script>
+    <script src="js/algo/greedy-huffman.js"></script>
+
+    <link rel="stylesheet" href="css/qunit.css" type="text/css" media="screen" />
+    <script type="text/javascript" src="js/tests/qunit.js"></script>
+
+    <script type="text/javascript">
+        function setup() {
+            return true;
+        }
+
+        function testSuite(){
+            module("Method: BiPartiteDFS.isBiPartite()");
+            var graph_non_bipartite = new Graph(5).addEdgeBuilder(0,1).addEdgeBuilder(1,2).addEdgeBuilder(2,3).addEdgeBuilder(3,4).addEdgeBuilder(4,0);
+            var graph_bipartite = new Graph(6).addEdgeBuilder(0,1).addEdgeBuilder(1,2).addEdgeBuilder(2,3).addEdgeBuilder(3,4).addEdgeBuilder(4,5).addEdgeBuilder(5,0);
+            test("With non bi-partite graph", function() {
+                var bi = new BiPartiteDFS(graph_non_bipartite);
+                ok( bi.isBipartite()==false, "This test is fine" );
+            });
+
+            test("With bi-partite graph", function() {
+                var bi = new BiPartiteDFS(graph_bipartite);
+                ok( bi.isBipartite()==true, "this test is fine" );
+            });
+
+            module("Method: TopologicalSort.reversePost");
+            var graph_for_topo_sort = new Graph(8).addEdgeBuilder(3,7).addEdgeBuilder(3,4).addEdgeBuilder(1,7).addEdgeBuilder(2,4).addEdgeBuilder(2,7).addEdgeBuilder(4,5).addEdgeBuilder(7,1).addEdgeBuilder(7,5).addEdgeBuilder(7,6);
+
+            test("Edges from parent and distances", function() {
+                var topo = new TopologicalSort(graph_for_topo_sort);
+                ok(arrays_equal(topo.reversePost,[0, 2, 4, 3, 6, 5, 7, 1]), "This test is fine" );
+            });
+
+            module("Method: Huffman.length");
+            var huffmann_sample1 = [{ch:'red', frequency:5},{ch: 'green', frequency:10},{ch: 'blue',frequency:15},{ch:'black', frequency:20},{ch: 'white', frequency:50}];
+            var huffmann_sample2 = [{ch:'a', frequency:45},{ch: 'b', frequency:13},{ch: 'c',frequency:12},{ch:'d', frequency:16},{ch: 'e', frequency:9},{ch:'f', frequency:5}];
+
+            test("Lenght of compressed string ", function() {
+                var huffman = new Huffman(huffmann_sample1);
+                ok(huffman.count() == 195, "This test is fine" );
+
+                var huffman2 = new Huffman(huffmann_sample2);
+                ok(huffman2.count() == 224, "This test is fine" );
+
+            });
+        }
+
+        if(setup()) {
+            setTimeout(testSuite, 1000);
+        }
+        function arrays_equal(a,b) { return !(a<b || b<a); }
+    </script>
+
+</head>
+<body>
+<h1 id="qunit-header">Unit testing for js-algo</h1>
+<h2 id="qunit-banner"></h2>
+<div id="qunit-testrunner-toolbar"></div>
+<h2 id="qunit-userAgent"></h2>
+<ol id="qunit-tests"></ol>
+<div id="qunit-fixture">Unit testing for mo417-js-algo functions</div>
+</body>
+</html>
